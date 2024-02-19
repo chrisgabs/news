@@ -1,16 +1,22 @@
 <script lang="ts">
 	import type { PageData } from './$types';
+    import Article from "$lib/components/custom/article-element.svelte";
 	
 	export let data: PageData;
     console.log(data);
-    // data = {
-    //     articles: [1,2,3]
-    // }
     
 </script>
 
-<div class="h-dvh ">
+<div class="p-3 ">
     {#each data["articles"] as article}
-         {article["author"]}
+        <Article 
+            author={article["author"]}
+            title={article["title"]}
+            publisher={article["publisher"]}
+            url={article["url"]}
+            publishedDate={article["publishedDate"]}
+            summary={article["summary"]}
+        />
+        
     {/each}
 </div>
