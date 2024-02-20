@@ -8,8 +8,8 @@
     export let image_url:string = "/"
     export let category: string = "category"
 
-    const dbDate:Date = new Date(publishedDate);
-    const currentDate:Date = new Date();
+    let dbDate:Date = new Date(publishedDate);
+    let currentDate:Date = new Date();
 
     let difference = currentDate.getTime() - dbDate.getTime();
     let timeDifferenceLabel = "Just now";
@@ -36,7 +36,7 @@
 
 </script>
 
-<div class="flex group w-full rounded-sm p-4 border border-slate-100">
+<div class="flex group w-full rounded-md p-4 border">
     <div class="flex flex-row w-full gap-2 justify-between items-center">
         <div id="information" class="flex flex-grow flex-col justify-between min-h-full w-full">
             <div class="h-full">
