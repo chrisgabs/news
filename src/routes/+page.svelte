@@ -7,7 +7,7 @@
     
 </script>
 
-<div class="p-3 ">
+<div class="flex flex-col gap-3 p-4">
     {#each data["articles"] as article}
         <Article 
             author={article["author"]}
@@ -16,7 +16,8 @@
             url={article["url"]}
             publishedDate={article["publishedDate"]}
             summary={article["summary"]}
+            image_url={article["image_url"]}
+            category={article["category"]}
         />
-        
     {/each}
 </div>
