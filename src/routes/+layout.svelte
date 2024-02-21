@@ -31,7 +31,7 @@
       </Sheet.Content>
     </Sheet.Root>
 
-    <h1 class="flex text-xl font-semibold ml-4">PH Tech News Digest</h1>
+    <h1 class="flex text-xl font-semibold">PH Tech News Digest</h1>
 
     <Button on:click={toggleMode} variant="outline" size="icon" class="bg-inherit border-none">
       <Sun class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"/>
