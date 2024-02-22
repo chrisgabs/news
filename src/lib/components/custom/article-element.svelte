@@ -36,22 +36,22 @@
 
 </script>
 
-<div class="flex group w-full rounded-md p-4 border">
+<div class="flex group w-full rounded-md p-2 border shadow-sm">
     <div class="flex flex-row w-full gap-2 justify-between items-center">
         <div id="information" class="flex flex-grow flex-col justify-between min-h-full w-full">
-            <div class="h-full">
-                <div class="flex gap-2 items-center">
-                    <figure class="aspect-square max-w-3.5 h-auto overflow-hidden">
+            <div class="flex flex-col gap-1.5 h-full">
+                <div class="flex gap-1 items-center">
+                    <figure class="aspect-square max-w-3 h-auto overflow-hidden">
                         <img src="/gradient.webp" alt="gradient" class="rounded-sm w-full h-full"/>
                     </figure>
-                    <span class="text-sm">
+                    <span class="text-xs">
                         {publisher}
                     </span>
                 </div>
-                <a href="{url}" target="_blank" class="font-bold text-xl text-wrap h-full group-hover:underline underline-offset-2 decoration-1">{title}</a>
+                <a href="{url}" target="_blank" class="font-semibold text-lg leading-none text-wrap h-full group-hover:underline underline-offset-2 decoration-1">{title}</a>
             </div>
             <div class="flex gap-2 h-fit items-center">
-                <span class="text-sm">
+                <span class="text-xs">
                     {#if timeDifferenceLabel == "Just now"}
                         {timeDifferenceLabel}
                     {:else }
@@ -59,7 +59,7 @@
                     {/if}
                 </span>
                 <div class="rounded-full w-1 h-1 bg-slate-300"/>
-                <span class="text-sm">
+                <span class="text-xs">
                     {author}
                 </span>
             </div>
