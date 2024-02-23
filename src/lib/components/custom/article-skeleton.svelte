@@ -1,4 +1,4 @@
-<div class="flex group w-full h-28 rounded-md p-4 border animate-pulse">
+<div class="flex group w-full h-28 rounded-md p-4 animate-pulse">
     <div class="flex flex-row w-full gap-6 justify-between items-center">
         <!-- text -->
         <div id="information" class="flex flex-grow flex-col justify-between min-h-full w-full">

@@ -38,21 +38,22 @@
 
 </script>
 
-<div class="flex group w-full rounded-md p-2 border shadow-sm">
-    <div class="flex flex-row w-full gap-2 justify-between items-center">
+<div class="flex group w-full rounded-md p-2">
+    <div class="flex flex-row w-full gap-4 justify-between items-center">
+
         <div id="information" class="flex flex-grow flex-col justify-between min-h-full w-full">
-            <div class="flex flex-col gap-1.5 h-full">
+            <div class="flex flex-col gap-1.5">
                 <div class="flex gap-1 items-center">
                     <figure class="aspect-square max-w-3 h-auto overflow-hidden">
-                        <img src="/gradient.webp" alt="gradient" class="rounded-sm w-full h-full"/>
+                        <img src="/gradient.webp" alt="gradient" class="w-full h-full"/>
                     </figure>
                     <span class="text-xs">
                         {publisher}
                     </span>
                 </div>
-                <a href="{url}" target="_blank" class="font-semibold text-lg leading-none text-wrap h-full group-hover:underline underline-offset-2 decoration-1">{title}</a>
+                <a href="{url}" target="_blank" class="font-semibold text-lg leading-none tracking-wide text-wrap h-full group-hover:underline underline-offset-2 decoration-1">{title}</a>
             </div>
-            <div class="flex gap-2 h-fit items-center">
+            <div class="flex gap-2 h-fit items-center mt-2">
                 <span class="text-xs">
                     {#if timeDifferenceLabel == "Just now"}
                         {timeDifferenceLabel}
@@ -72,7 +73,7 @@
             <img 
                 src={image_url == "" ? "/gradient.webp" : image_url} 
                 alt="gradient" 
-                class="rounded-sm h-full object-cover"
+                class="h-full object-cover"
                 on:load={() => imageLoaded = true}
                 on:error={() => console.log("error loading image: " + image_url)}
             />

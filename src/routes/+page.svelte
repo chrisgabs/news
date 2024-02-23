@@ -2,6 +2,7 @@
 	import type { PageData } from './$types';
     import Article from "$lib/components/custom/article-element.svelte";
     import ArticleSkeleton from "$lib/components/custom/article-skeleton.svelte";
+    import DatePartition from "$lib/components/custom/date-partition.svelte";
     import * as Pagination from '$lib/components/shad/ui/pagination';
     import ChevronLeft from "lucide-svelte/icons/chevron-left";
     import ChevronRight from "lucide-svelte/icons/chevron-right";
@@ -13,6 +14,8 @@
     
     // let itemsPerPage:number = 5;
     // let currentPage:number = 1;
+
+    let idxOfDateBreakpoints:number[] = [];
 
     let articles:any[] = [];
     let count = 10;
@@ -29,7 +32,6 @@
     
     $: if (currentPage >= 1) {     
       let offset = (currentPage-1)*perPage;
-      console.log("i am running")
       articles = [];
       window.scrollTo({top: 0, behavior: 'smooth'});
       // queryArticles(offset, perPage).then((e) => {
@@ -43,6 +45,10 @@
           articles = e;
         }, 200);
       });
+    }
+
+    $: if (articles) {
+      idxOfDateBreakpoints = findDateBreakpoints(articles);
     }
 
     async function queryArticles(offset:number, limit:number) {
@@ -78,27 +84,46 @@
             return data;
         }
     }
+
+    function findDateBreakpoints(articles:any[]) : number[] {
+      let indexes:number[] = []
+      let prevDate:null|string = null;
+
+      articles.forEach((article, i) => {
+        const articleDate = article["publishedDate"].split("-")[2].substring(0,2);
+        if (prevDate === null || prevDate !== articleDate) {
+          indexes.push(i);
+          prevDate = articleDate;
+        }
+      })
+      return indexes
+    }
     
 
 </script>
 
-<div class="flex flex-col gap-2 px-4 pt-4">
+<div class="flex flex-col gap-4 px-4 pt-4">
     {#if articles.length === 0}
       {#each {length: perPage} as i}
         <ArticleSkeleton/>
       {/each}
     {:else}
-      {#each articles as article}
-          <Article 
-              author={article["author"]}
-              title={article["title"]}
-              publisher={article["publisher"]}
-              url={article["url"]}
-              publishedDate={article["publishedDate"]}
-              summary={article["summary"]}
-              image_url={article["image_url"]}
-              category={article["category"]}
+      {#each articles as article, i}
+        {#if idxOfDateBreakpoints.includes(i)}
+          <DatePartition
+            date={article["publishedDate"]}
           />
+        {/if}
+        <Article 
+            author={article["author"]}
+            title={article["title"]}
+            publisher={article["publisher"]}
+            url={article["url"]}
+            publishedDate={article["publishedDate"]}
+            summary={article["summary"]}
+            image_url={article["image_url"]}
+            category={article["category"]}
+        />
       {/each}
     {/if}
 </div>
