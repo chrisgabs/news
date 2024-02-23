@@ -8,6 +8,8 @@
     export let image_url:string = "/"
     export let category: string = "category"
 
+    let imageLoaded = false;
+
     let dbDate:Date = new Date(publishedDate);
     let currentDate:Date = new Date();
 
@@ -64,8 +66,16 @@
                 </span>
             </div>
         </div>
+
         <figure class="aspect-square max-w-24 h-auto overflow-hidden">
-            <img src={image_url == "" ? "/gradient.webp" : image_url} alt="gradient" class="rounded-sm h-full object-cover"/>
+            <div class="{imageLoaded ? "hidden" : ""} rounded w-24 h-24 overflow-hidden bg-slate-200 animate-pulse"/>
+            <img 
+                src={image_url == "" ? "/gradient.webp" : image_url} 
+                alt="gradient" 
+                class="rounded-sm h-full object-cover"
+                on:load={() => imageLoaded = true}
+                on:error={() => console.log("error loading image: " + image_url)}
+            />
         </figure>
     </div>
 </div>

@@ -9,7 +9,7 @@
     
     let API_ADDRESS = "localhost";
     let API_PORT = "6969";
-	// export let data: PageData;
+	  // export let data: PageData;
     
     // let itemsPerPage:number = 5;
     // let currentPage:number = 1;
@@ -28,7 +28,7 @@
     })
     
     $: if (currentPage >= 1) {     
-      let offset = (currentPage-1)*5;
+      let offset = (currentPage-1)*perPage;
       console.log("i am running")
       articles = [];
       window.scrollTo({top: 0, behavior: 'smooth'});
@@ -39,12 +39,14 @@
       //     }, 2000);
       // });
       queryArticles(offset, perPage).then((e) => {
-        articles = e;
+        setTimeout(() => {
+          articles = e;
+        }, 200);
       });
     }
 
     async function queryArticles(offset:number, limit:number) {
-        const url = "http://" + API_ADDRESS + ":" + API_PORT + "/articles?" + "offset=" + offset + "&limit=" + limit;
+        const url = "api/articles?" + "offset=" + offset + "&limit=" + limit;
         const response = await fetch(url, {
             method: "GET",
             headers: {
@@ -61,7 +63,7 @@
     }
 
     async function getTotalArticlesNum() {
-        const url = "http://" + API_ADDRESS + ":" + API_PORT + "/metadata";
+        const url = "api/metadata";
         const response = await fetch(url, {
             method: "GET",
             headers: {
@@ -80,7 +82,7 @@
 
 </script>
 
-<div class="flex flex-col gap-4 px-4 pt-4">
+<div class="flex flex-col gap-2 px-4 pt-4">
     {#if articles.length === 0}
       {#each {length: perPage} as i}
         <ArticleSkeleton/>
