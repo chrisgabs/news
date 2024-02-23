@@ -10,24 +10,23 @@
     
     let API_ADDRESS = "localhost";
     let API_PORT = "6969";
-	  // export let data: PageData;
-    
+	  export let data: PageData;
+    let {articlesCount} = data;
     // let itemsPerPage:number = 5;
     // let currentPage:number = 1;
 
     let idxOfDateBreakpoints:number[] = [];
 
     let articles:any[] = [];
-    let count = 10;
-    let perPage = 10;
+    let perPage = 15;
     let siblingCount = 1;
     let currentPage = 0;
 
     onMount(async () => {
-      getTotalArticlesNum().then((e) => {
-        count = e;
-      })
-      currentPage = 1;
+      if (articlesCount) {
+        // trigger articles fetch
+        currentPage = 1;
+      }
     })
     
     $: if (currentPage >= 1) {     
@@ -53,23 +52,6 @@
 
     async function queryArticles(offset:number, limit:number) {
         const url = "api/articles?" + "offset=" + offset + "&limit=" + limit;
-        const response = await fetch(url, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            // credentials: "include",
-        });
-        
-        if (response.ok) {
-            const data = await response.json();
-            // console.log(data);
-            return data;
-        }
-    }
-
-    async function getTotalArticlesNum() {
-        const url = "api/metadata";
         const response = await fetch(url, {
             method: "GET",
             headers: {
@@ -128,7 +110,7 @@
     {/if}
 </div>
 
-<Pagination.Root {count} {perPage} {siblingCount} bind:page={currentPage} let:pages let:currentPage class="my-4">
+<Pagination.Root bind:count={articlesCount} {perPage} {siblingCount} bind:page={currentPage} let:pages let:currentPage class="my-4">
   <Pagination.Content>
     <Pagination.Item>
       <Pagination.PrevButton>
