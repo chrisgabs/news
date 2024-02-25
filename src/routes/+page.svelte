@@ -6,21 +6,33 @@
     import * as Pagination from '$lib/components/shad/ui/pagination';
     import ChevronLeft from "lucide-svelte/icons/chevron-left";
     import ChevronRight from "lucide-svelte/icons/chevron-right";
+    import {ignoredTags as ignoredTagsStore} from "$lib/stores/ignoredTags";
 	  import { onMount } from 'svelte';
     
-    let API_ADDRESS = "localhost";
-    let API_PORT = "6969";
 	  export let data: PageData;
     let {articlesCount} = data;
-    // let itemsPerPage:number = 5;
-    // let currentPage:number = 1;
-
+    
     let idxOfDateBreakpoints:number[] = [];
-
+    
+    let ignoredTags:string = "";
     let articles:any[] = [];
     let perPage = 15;
     let siblingCount = 1;
     let currentPage = 0;
+
+    // TODO: ensure that the tags themselves dont have commas
+    // TODO: requery articles count
+    ignoredTagsStore.subscribe((values) => {
+      let ignoredTagsString = "";
+      values.forEach((e, i) => {
+        if (i < values.length-1) {
+          ignoredTagsString += e + ",";
+        }else {
+          ignoredTagsString += e;
+        }
+      })
+      ignoredTags = ignoredTagsString;
+    })
 
     onMount(async () => {
       if (articlesCount) {
@@ -29,29 +41,27 @@
       }
     })
     
-    $: if (currentPage >= 1) {     
+    $: if (currentPage >= 1) {
+      console.log("querying!")
       let offset = (currentPage-1)*perPage;
       articles = [];
       window.scrollTo({top: 0, behavior: 'smooth'});
-      // queryArticles(offset, perPage).then((e) => {
-      //     setTimeout(() => {
-      //         console.log("waiting for me");
-      //         articles = e;
-      //     }, 2000);
-      // });
-      queryArticles(offset, perPage).then((e) => {
+      queryArticles(offset, perPage, ignoredTags).then((e) => {
         setTimeout(() => {
           articles = e;
         }, 200);
       });
     }
-
+    
     $: if (articles) {
       idxOfDateBreakpoints = findDateBreakpoints(articles);
     }
 
-    async function queryArticles(offset:number, limit:number) {
-        const url = "api/articles?" + "offset=" + offset + "&limit=" + limit;
+    // ------ TODO: put all functions below this comment in lib folder ------
+
+    async function queryArticles(offset:number, limit:number, ignoredTags:string) {
+        let url = "api/articles?" + "offset=" + offset + "&limit=" + limit + "&ignoredTags=" + ignoredTags;
+        url = encodeURI(url);
         const response = await fetch(url, {
             method: "GET",
             headers: {
@@ -81,7 +91,6 @@
       return indexes
     }
     
-
 </script>
 
 <div class="flex flex-col gap-4 px-4 pt-4">

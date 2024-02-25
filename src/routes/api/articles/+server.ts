@@ -8,7 +8,8 @@ export const GET: RequestHandler = async ({ request, url }) => {
 	// const { offset, limit } = await request.json();
     const offset = url.searchParams.get("offset");
     const limit = url.searchParams.get("limit");
-    const urlRequest = "http://" + API_ADDRESS + ":" + API_PORT + "/articles?" + "offset=" + offset + "&limit=" + limit;
+    const ignoredTags = encodeURIComponent(url.searchParams.get("ignoredTags") as string);
+    const urlRequest = "http://" + API_ADDRESS + ":" + API_PORT + "/articles?" + "offset=" + offset + "&limit=" + limit + "&ignoredTags=" + ignoredTags;
     const response = await fetch(urlRequest, {
         method: "GET",
         headers: {
