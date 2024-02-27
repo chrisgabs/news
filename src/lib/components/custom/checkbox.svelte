@@ -11,7 +11,7 @@
 
 <div class="flex flex-row {className}">
     <div class="flex items-center space-x-2">
-        <Checkbox
+    <Checkbox
         id={label + "-checkbox"}
         bind:checked
         aria-labelledby="terms-label"
@@ -20,7 +20,7 @@
     <Label
         id="terms-label"
         for={label + "-checkbox"}
-        class="md:min-w-11 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+        class="md:min-w-11 text-sm font-medium leading-4 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
         >
         {label}
     </Label>
