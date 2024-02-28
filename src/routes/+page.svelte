@@ -1,16 +1,17 @@
 <script lang="ts">
-	import type { PageData } from './$types';
+    import type { PageData } from './$types';
     import Article from "$lib/components/custom/article-element.svelte";
     import ArticleSkeleton from "$lib/components/custom/article-skeleton.svelte";
     import DatePartition from "$lib/components/custom/date-partition.svelte";
+    import FiltersSection from "$lib/components/custom/filters-section/+page.svelte";
     import * as Pagination from '$lib/components/shad/ui/pagination';
     import ChevronLeft from "lucide-svelte/icons/chevron-left";
     import ChevronRight from "lucide-svelte/icons/chevron-right";
     import {ignoredTags as ignoredTagsStore} from "$lib/stores/ignoredTags";
-	  import { onMount } from 'svelte';
+    import { onMount } from 'svelte';
     
-	  export let data: PageData;
-    let {articlesCount} = data;
+    export let data: PageData;
+    let {articlesCount, allCategories} = data;
     
     let idxOfDateBreakpoints:number[] = [];
     
@@ -42,19 +43,20 @@
     })
     
     $: if (currentPage >= 1) {
-      console.log("querying!")
-      let offset = (currentPage-1)*perPage;
-      articles = [];
-      window.scrollTo({top: 0, behavior: 'smooth'});
-      queryArticles(offset, perPage, ignoredTags).then((e) => {
-        setTimeout(() => {
-          articles = e;
-        }, 200);
-      });
+        console.log("querying!")
+        let offset = (currentPage-1)*perPage;
+        articles = [];
+        window.scrollTo({top: 0, behavior: 'smooth'});
+        queryArticles(offset, perPage, ignoredTags).then((e) => {
+            setTimeout(() => {
+                // e can be null
+                articles = e;
+            }, 200);
+        });
     }
-    
+
     $: if (articles) {
-      idxOfDateBreakpoints = findDateBreakpoints(articles);
+        idxOfDateBreakpoints = findDateBreakpoints(articles);
     }
 
     // ------ TODO: put all functions below this comment in lib folder ------
@@ -93,58 +95,76 @@
     
 </script>
 
-<div class="flex flex-col gap-4 px-4 pt-4">
-    {#if articles.length === 0}
-      {#each {length: perPage} as i}
-        <ArticleSkeleton/>
-      {/each}
-    {:else}
-      {#each articles as article, i}
-        {#if idxOfDateBreakpoints.includes(i)}
-          <DatePartition
-            date={article["publishedDate"]}
-          />
+<div id="main-body" class="flex justify-center gap-5 mt-5 mx-4 md:ml-8">
+    <div id="articles-cointainer" class="flex flex-col gap-4 w-full md:max-w-2xl ">
+        {#if articles === null}
+            <span class="w-full text-2xl text-center mt-10">
+                No articles match given filters :(
+            </span>
+        {:else if articles.length === 0}
+            {#each {length: perPage} as i}
+                <ArticleSkeleton/>
+            {/each}
+        {:else}
+            {#each articles as article, i}
+                {#if idxOfDateBreakpoints.includes(i)}
+                    <DatePartition
+                        date={article["publishedDate"]}
+                    />
+                {/if}
+                    <Article 
+                        author={article["author"]}
+                        title={article["title"]}
+                        publisher={article["publisher"]}
+                        url={article["url"]}
+                        publishedDate={article["publishedDate"]}
+                        summary={article["summary"]}
+                        image_url={article["image_url"]}
+                        category={article["category"]}
+                    />
+            {/each}
         {/if}
-        <Article 
-            author={article["author"]}
-            title={article["title"]}
-            publisher={article["publisher"]}
-            url={article["url"]}
-            publishedDate={article["publishedDate"]}
-            summary={article["summary"]}
-            image_url={article["image_url"]}
-            category={article["category"]}
-        />
-      {/each}
-    {/if}
-</div>
+        {#if articles !== null}
+            <Pagination.Root bind:count={articlesCount} {perPage} {siblingCount} bind:page={currentPage} let:pages let:currentPage class="my-4">
+                <Pagination.Content>    
+                <Pagination.Item>
+                    <Pagination.PrevButton>
+                    <ChevronLeft class="h-4 w-4" />
+                    <span class="hidden sm:block">Previous</span>
+                    </Pagination.PrevButton>
+                </Pagination.Item>
+                {#each pages as page (page.key)}
+                    {#if page.type === "ellipsis"}
+                    <Pagination.Item>
+                        <Pagination.Ellipsis />
+                    </Pagination.Item>
+                    {:else}
+                    <Pagination.Item>
+                        <Pagination.Link {page} isActive={currentPage == page.value}>
+                        {page.value}
+                        </Pagination.Link>
+                    </Pagination.Item>
+                    {/if}
+                {/each}
+                <Pagination.Item>
+                    <Pagination.NextButton>
+                    <span class="hidden sm:block">Next</span>
+                    <ChevronRight class="h-4 w-4" />
+                    </Pagination.NextButton>
+                </Pagination.Item>
+                </Pagination.Content>
+            </Pagination.Root>
+        {/if}
+    </div>
+  
+    <div class="hidden lg:flex flex-col min-w-72 p-4">
+        <FiltersSection allCategories={allCategories} />
+        <div class="w-full h-px bg-slate-200 mt-6 mb-2"/>
+        <div id="sheet-footer" class="flex flex-col gap-1 w-full">
+            <span class="text-xs">About</span>
+            <span class="text-xs">Github</span>
+            <span class="text-xs">Report an Issue</span>
+        </div>
+    </div>
 
-<Pagination.Root bind:count={articlesCount} {perPage} {siblingCount} bind:page={currentPage} let:pages let:currentPage class="my-4">
-  <Pagination.Content>
-    <Pagination.Item>
-      <Pagination.PrevButton>
-        <ChevronLeft class="h-4 w-4" />
-        <span class="hidden sm:block">Previous</span>
-      </Pagination.PrevButton>
-    </Pagination.Item>
-    {#each pages as page (page.key)}
-      {#if page.type === "ellipsis"}
-        <Pagination.Item>
-          <Pagination.Ellipsis />
-        </Pagination.Item>
-      {:else}
-        <Pagination.Item>
-          <Pagination.Link {page} isActive={currentPage == page.value}>
-            {page.value}
-          </Pagination.Link>
-        </Pagination.Item>
-      {/if}
-    {/each}
-    <Pagination.Item>
-      <Pagination.NextButton>
-        <span class="hidden sm:block">Next</span>
-        <ChevronRight class="h-4 w-4" />
-      </Pagination.NextButton>
-    </Pagination.Item>
-  </Pagination.Content>
-</Pagination.Root>
+</div>

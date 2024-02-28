@@ -21,7 +21,7 @@
 
 <div class="w-full border-b flex justify-start">
     <div class="w-fit px-4 rounded-tl border border-b-0 rounded-tr mx-4">
-        <span class="text-sm tracking-wide">
+        <span class="text-sm tracking-wide font-semibold">
             {datePreview}
         </span>
     </div>

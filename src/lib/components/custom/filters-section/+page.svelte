@@ -56,32 +56,32 @@
     }
 </script>
 
-<div id="sheet-options" class="w-full">
-    <header class="mb-3">
-        <h1 class="text-2xl font-bold text-center">Filters</h1>
+<div id="sheet-options" class="flex flex-col w-full">
+    <header class="mb-2">
+        <h1 class="text-xl font-bold text-left">Filter By</h1>
     </header>
-    <div id="tags-filter" class="flex flex-col gap-4">
+    <div id="tags-filter" class="flex flex-col gap-3">
         <div class="flex justify-between items-end">
-            <h2 class="text-xl font-bold">Ignored Tags:</h2>
-            <ButtonBits.Root on:click={onEditIgnoredTags} class="font-semibold text-left underline">Edit Tags</ButtonBits.Root>
+            <h2 class="text-md font-semibold">Ignored Tags:</h2>
+            <ButtonBits.Root on:click={onEditIgnoredTags} class="text-sm text-left underline">Edit Tags</ButtonBits.Root>
         </div>
         {#if !editTagsOpen}
             {#if ignoredTagValues.length === 0}
-                    <span class="w-full text-center">No ignored tags</span>
+                    <span class="w-full text-center text-sm">No ignored tags</span>
             {:else}
-                <div class="flex gap-2 flex-wrap">
+                <div class="flex flex-wrap gap-2 w-64">
                     {#each ignoredTagValues as ignoredTag}
                         <div class="flex border rounded-full px-2 py-1 gap-1 content-center justify-center align-middle">
-                            <span class="leading-none tracking-normal">{ignoredTag}</span>
+                            <span class="leading-none tracking-normal text-sm">{ignoredTag}</span>
                         </div>
                     {/each}
                 </div>
             {/if}
         {/if}
-        <Collapsible.Root class="transition-all" bind:open={editTagsOpen}>
+        <Collapsible.Root class="{editTagsOpen ? "block" : "hidden"} transition-all w-full" bind:open={editTagsOpen}>
             <!-- TODOL: transition={slide} -->
-            <Collapsible.Content transition={slide}>
-                <div class="flex flex-col items-end gap-2">
+            <Collapsible.Content transition={slide} class="w-full">
+                <div class="flex flex-col items-end gap-2 w-full">
                     <div class="flex flex-col w-full items-end">
                         <div class="flex flex-col gap-2 overflow-auto w-full h-72">
                             {#each allCategories as category (category)}
@@ -92,7 +92,7 @@
                             />
                             {/each}
                         </div>
-                        <ButtonBits.Root on:click={onSelectAllTrigger} class="text-sm w-fit text-right">
+                        <ButtonBits.Root on:click={onSelectAllTrigger} class="text-xs w-fit text-right">
                             {allIgnoredTagsSelected ? "Unselect All" : "Select All"}
                         </ButtonBits.Root>
                     </div>
