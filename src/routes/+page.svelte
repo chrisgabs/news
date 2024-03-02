@@ -81,10 +81,11 @@
 
     function findDateBreakpoints(articles:any[]) : number[] {
       let indexes:number[] = []
-      let prevDate:null|string = null;
+      let prevDate:null|number = null;
 
       articles.forEach((article, i) => {
-        const articleDate = article["publishedDate"].split("-")[2].substring(0,2);
+        const articleDate = new Date(article["publishedDate"]).getDate();
+        console.log(articleDate)
         if (prevDate === null || prevDate !== articleDate) {
           indexes.push(i);
           prevDate = articleDate;

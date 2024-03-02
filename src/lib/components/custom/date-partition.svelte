@@ -11,9 +11,9 @@
         1: "Mon", 2: "Tue", 3: "Wed", 4: "Thu", 5: "Fri", 6: "Sat", 7: "Sun"
     };
 
-    let datePreview = dayMap[date.getUTCDay()] + ", " + monthMap[date.getUTCMonth()] + " " + date.getUTCDay();
+    let datePreview = dayMap[date.getDay()] + ", " + monthMap[date.getMonth()] + " " + date.getDate();
     const dateToday = new Date();
-    const dateTodayString = dayMap[dateToday.getUTCDay()] + ", " + monthMap[dateToday.getUTCMonth()] + " " + dateToday.getUTCDay();
+    const dateTodayString = dayMap[dateToday.getDay()] + ", " + monthMap[dateToday.getMonth()] + " " + dateToday.getDate();
     if (dateTodayString == datePreview) {
         datePreview = "Today";
     }
