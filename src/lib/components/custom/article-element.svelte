@@ -11,9 +11,12 @@
     export let image_url:string = "/"
     export let category: string = "category"
 
+    
     let imageLoaded = false;
     let publishedDate_localized = new Date(publishedDate);
-
+    
+    let showAuthor = !(author.length >= 11 && author.substring(author.length-11, author.length) == "null_author");
+    
     let dbDate:Date = new Date(publishedDate);
     let currentDate:Date = new Date();
 
@@ -70,12 +73,14 @@
                         {/if}
                     </span>
                 </div>
-                <div class="rounded-full w-1 h-1 mt-1 bg-slate-300"/>
-                <div>
-                    <span class="text-xs">
-                        {author}
-                    </span>
-                </div>
+                {#if showAuthor}
+                    <div class="rounded-full w-1 h-1 mt-1 bg-slate-300"/>
+                    <div>
+                        <span class="text-xs">
+                                {author}
+                        </span>
+                    </div>
+                {/if}
             </div>
         </div>
 
