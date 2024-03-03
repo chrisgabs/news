@@ -28,6 +28,7 @@
         }
         // TODO: ensure that the tags themselves dont have commas
         ignoredTagsStore.subscribe((values) => {
+            currentPage = 1;
             let ignoredTagsString = "";
             values.forEach((e, i) => {
                 if (i < values.length-1) {
