@@ -46,8 +46,6 @@
     function onEditIgnoredTags(e:MouseEvent) {
         e.stopPropagation();
         editTagsOpen = !editTagsOpen;
-        
-        console.log("edit ignored tags")
     }
 
     function onCloseTagFilters(e: MouseEvent) {

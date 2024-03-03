@@ -21,29 +21,29 @@
     let siblingCount = 1;
     let currentPage = 0;
 
-    // TODO: ensure that the tags themselves dont have commas
-    // TODO: requery articles count
-    ignoredTagsStore.subscribe((values) => {
-      let ignoredTagsString = "";
-      values.forEach((e, i) => {
-        if (i < values.length-1) {
-          ignoredTagsString += e + ",";
-        }else {
-          ignoredTagsString += e;
-        }
-      })
-      ignoredTags = ignoredTagsString;
-    })
-
     onMount(async () => {
-      if (articlesCount) {
-        // trigger articles fetch
-        currentPage = 1;
-      }
+        if (articlesCount) {
+            // trigger articles fetch
+            currentPage = 1;
+        }
+        // TODO: ensure that the tags themselves dont have commas
+        ignoredTagsStore.subscribe((values) => {
+            let ignoredTagsString = "";
+            values.forEach((e, i) => {
+                if (i < values.length-1) {
+                    ignoredTagsString += e + ",";
+                }else {
+                    ignoredTagsString += e;
+                }
+            })
+            queryArticlesCount(ignoredTagsString).then((e) => {
+                articlesCount = e;
+            }) 
+            ignoredTags = ignoredTagsString;
+        })
     })
     
     $: if (currentPage >= 1) {
-        console.log("querying!")
         let offset = (currentPage-1)*perPage;
         articles = [];
         window.scrollTo({top: 0, behavior: 'smooth'});
@@ -79,13 +79,29 @@
         }
     }
 
+    async function queryArticlesCount(ignoredTags: string) {
+        let url = "api/articlesCount?ignoredTags=" + ignoredTags;
+        url = encodeURI(url);
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            // credentials: "include",
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        }
+    }
+
     function findDateBreakpoints(articles:any[]) : number[] {
       let indexes:number[] = []
       let prevDate:null|number = null;
 
       articles.forEach((article, i) => {
         const articleDate = new Date(article["publishedDate"]).getDate();
-        console.log(articleDate)
         if (prevDate === null || prevDate !== articleDate) {
           indexes.push(i);
           prevDate = articleDate;

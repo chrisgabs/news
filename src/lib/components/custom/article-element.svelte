@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Tooltip } from "bits-ui";
-  import { Trigger } from "../shad/ui/sheet";
+    import { Trigger } from "../shad/ui/sheet";
 
     export let title:string = "Title Title Title Title Title Title Title ";
     export let author:string = "author";
@@ -79,7 +79,7 @@
             </div>
         </div>
 
-        <figure class="aspect-square max-w-24 min-w-24 h-auto overflow-hidden">
+        <figure class="aspect-square max-w-24 min-w-24 rounded-sm h-auto overflow-hidden">
             <div class="{imageLoaded ? "hidden" : ""} rounded w-24 h-24 overflow-hidden bg-slate-200 animate-pulse"/>
             <a href={url} target="_blank">
                 <img
