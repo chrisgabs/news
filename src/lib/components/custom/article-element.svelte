@@ -44,6 +44,12 @@
     if (timeDifferenceLabel !== "Just now" && difference === 1) {
         timeDifferenceLabel = timeDifferenceLabel.substring(0,timeDifferenceLabel.length-1)
     }
+    
+    const publisherIconMap:Record<string, string> = {
+        "NoypiGeeks": "https://www.noypigeeks.com/wp-content/uploads/2020/02/NoypiGeeks-Logo-150x150.jpg",
+        "Inquirer Technology": "https://newsinfo.inquirer.net/landing2017/images/favicon2.ico",
+        "GMA News Online / SciTech / Science and Research": "https://images.gmanews.tv/icons/touch-icon-ipad-precomposed.png"
+    }
 
 </script>
 
@@ -53,8 +59,9 @@
         <div id="information" class="flex flex-col justify-between min-h-full w-full">
             <div class="flex flex-col gap-1.5">
                 <div class="flex gap-1 items-center">
-                    <figure class="aspect-square max-w-3 h-auto overflow-hidden">
-                        <img src="/gradient.webp" alt="gradient" class="w-full h-full"/>
+                    <figure class="aspect-square max-w-3 h-auto overflow-hidden bg-white">
+                        <!-- <img src="/gradient.webp" alt="gradient" class="w-full h-full"/> -->
+                        <img src={publisherIconMap[publisher]} alt="gradient" class="w-full h-full"/>
                     </figure>
                     <span class="text-xs truncate max-w-52 sm:max-w-full">
                         {publisher}
