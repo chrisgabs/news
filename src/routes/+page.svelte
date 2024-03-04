@@ -48,11 +48,12 @@
         let offset = (currentPage-1)*perPage;
         articles = [];
         window.scrollTo({top: 0, behavior: 'smooth'});
+        // TODO: if dev, turn timeout to 200
         queryArticles(offset, perPage, ignoredTags).then((e) => {
             setTimeout(() => {
                 // e can be null
                 articles = e;
-            }, 200);
+            }, 100);
         });
     }
 

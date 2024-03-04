@@ -1,4 +1,9 @@
 <script lang="ts">
+    // vercel analytics
+    import { inject } from '@vercel/analytics';
+    import { dev } from '$app/environment';
+    inject({ mode: dev ? 'development' : 'production' });
+
     import "../app.css";
     import * as Sheet from "$lib/components/shad/ui/sheet";
     import { Button } from "$lib/components/shad/ui/button";
@@ -8,7 +13,7 @@
     import { toggleMode } from "mode-watcher";
     import { onMount } from "svelte";
     import type { LayoutData } from './$types';
-    
+
     export let data:LayoutData;
     let {allCategories} = data;
 
