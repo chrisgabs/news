@@ -1,5 +1,6 @@
 // import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
+import { API_ENDPOINT } from '$lib/server/env';
 
 let API_ADDRESS = "localhost";
 let API_PORT = "6969";
@@ -9,7 +10,7 @@ export const GET: RequestHandler = async ({ request, url }) => {
     const offset = url.searchParams.get("offset");
     const limit = url.searchParams.get("limit");
     const ignoredTags = encodeURIComponent(url.searchParams.get("ignoredTags") as string);
-    const urlRequest = "http://" + API_ADDRESS + ":" + API_PORT + "/articles?" + "offset=" + offset + "&limit=" + limit + "&ignoredTags=" + ignoredTags;
+    const urlRequest = API_ENDPOINT + "/articles?" + "offset=" + offset + "&limit=" + limit + "&ignoredTags=" + ignoredTags;
     const response = await fetch(urlRequest, {
         method: "GET",
         headers: {

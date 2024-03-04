@@ -1,4 +1,5 @@
 import type { RequestHandler } from './$types';
+import { API_ENDPOINT } from '$lib/server/env';
 
 let API_ADDRESS = "localhost";
 let API_PORT = "6969";
@@ -14,7 +15,7 @@ export const GET: RequestHandler = async ({ request, url }) => {
     //     },
     // });
     const ignoredTags = encodeURIComponent(url.searchParams.get("ignoredTags") as string);
-    const urlString = "http://" + API_ADDRESS + ":" + API_PORT + "/articlesCount?ignoredTags=" + ignoredTags;
+    const urlString = API_ENDPOINT + "/articlesCount?ignoredTags=" + ignoredTags;
     const response = await fetch(urlString, {
         method: "GET",
         // headers: {

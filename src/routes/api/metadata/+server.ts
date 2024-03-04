@@ -1,10 +1,11 @@
 import type { RequestHandler } from './$types';
+import { API_ENDPOINT } from '$lib/server/env';
 
 let API_ADDRESS = "localhost";
 let API_PORT = "6969";
 
 export const GET: RequestHandler = async ({ request }) => {
-    const url = "http://" + API_ADDRESS + ":" + API_PORT + "/metadata";
+    const url = API_ENDPOINT + "/metadata";
     const response = await fetch(url, {
         method: "GET",
         headers: {
