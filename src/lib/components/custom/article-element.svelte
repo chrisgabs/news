@@ -19,6 +19,14 @@
     
     let dbDate:Date = new Date(publishedDate);
     let currentDate:Date = new Date();
+    console.log("-----");
+    
+    console.log(dbDate);
+    console.log(dbDate.getTime());
+    
+    console.log(currentDate);
+    console.log(currentDate.getTime());
+    
 
     let difference = currentDate.getTime() - dbDate.getTime();
     let timeDifferenceLabel = "Just now";
