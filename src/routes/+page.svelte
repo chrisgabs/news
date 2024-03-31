@@ -180,9 +180,9 @@
         <FiltersSection allCategories={allCategories} />
         <div class="w-full h-px bg-slate-200 mt-6 mb-2"/>
         <div id="sheet-footer" class="flex flex-col gap-1 w-full">
-            <span class="text-xs">About</span>
-            <span class="text-xs">Github</span>
-            <span class="text-xs">Report an Issue</span>
+            <!-- <span class="text-xs">About</span> -->
+            <a href="https://github.com/chrisgabs/news" target="_blank" class="text-xs">Github</a>
+            <!-- <span class="text-xs">Report an Issue</span> -->
         </div>
     </div>
 
